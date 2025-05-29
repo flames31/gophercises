@@ -2,30 +2,21 @@ package main
 
 import (
 	"fmt"
-	"strings"
+	"os"
 
 	"github.com/flames31/gophercises/link/internal/parse"
 )
 
 func main() {
 
-	file := strings.NewReader(`<html>
-<head>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
-<body>
-  <h1>Social stuffs</h1>
-  <div>
-    <a href="https://www.twitter.com/joncalhoun">
-      Check me out on twitter
-      <i class="fa fa-twitter" aria-hidden="true"></i>
-    </a>
-    <a href="https://github.com/gophercises">
-      Gophercises is on <strong>Github</strong>!
-    </a>
-  </div>
-</body>
-</html>`)
+	fileName := os.Args[1]
+	file, _ := os.Open(fileName)
+	fmt.Println("Links found in this repo are")
+	fmt.Println()
 	links, _ := parse.ParseHTML(file)
-	fmt.Println(links)
+	for _, link := range links {
+		fmt.Printf("Text : %v\n", link.Text)
+		fmt.Printf("Reference to : %v\n", link.Href)
+		fmt.Println()
+	}
 }
